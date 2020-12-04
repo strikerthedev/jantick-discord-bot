@@ -1,4 +1,10 @@
+# nodejs packages and files 
 node_modules
+package-lock.json
 
-.env
-.DS_Store
+# dotenv environment variables file
+.env 
+.env.test
+
+# macos ds_store file
+.DS_store
