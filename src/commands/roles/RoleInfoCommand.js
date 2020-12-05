@@ -1,20 +1,24 @@
-
-
 const BaseCommand = require('../../utils/structures/BaseCommand');
+const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const permissions = require('../../utils/permissions.json');
-const { MessageEmbed, Message } = require('discord.js')
-const colours = require('../../json/colors.json')
 
-module.exports = class GiveRoleCommand extends BaseCommand {
-  constructor() {
-    super('roleinfo', 'Roles', ['ri']);
+module.exports = class RoleInfoCommand extends Command {
+  constructor(client) {
+    super(client, {
+      name: 'roleinfo',
+      aliases: ['role', 'ri'],
+      usage: 'roleinfo <role mention/ID>',
+      description: 'Fetches information about the provided role.',
+      type: client.types.INFO,
+      examples: ['roleinfo @Member']
+    });
   }
+  run(message, args) {
 
-  async run(client, message, args) {
-    const role = getRoleFromMention(message, args[0]) || message.guild.roles.cache.get(args[0]);
+    const role = this.getRoleFromMention(message, args[0]) || message.guild.roles.cache.get(args[0]);
     if (!role)
-      return message.channel.send('Please mention a role or provide a valid role ID');
+      return this.sendErrorMessage(message, 0, 'Please mention a role or provide a valid role ID');
 
     // Get role permissions
     const rolePermissions = role.permissions.toArray();
@@ -45,4 +49,4 @@ module.exports = class GiveRoleCommand extends BaseCommand {
       .setColor(role.hexColor);
     message.channel.send(embed);
   }
-}
+};
