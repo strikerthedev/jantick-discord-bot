@@ -21,7 +21,7 @@ module.exports = class GithubCommand extends BaseCommand {
       )
       .setFooter(message.member.displayName,  message.author.displayAvatarURL({ dynamic: true }))
       .setTimestamp()
-      .setColor(colors.MainColour);
+      .setColor(message.guild.me.displayHexColor);
     message.channel.send(embed);
   }
 };
