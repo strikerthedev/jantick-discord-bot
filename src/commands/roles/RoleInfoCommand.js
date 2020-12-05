@@ -3,17 +3,11 @@ const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const permissions = require('../../utils/permissions.json');
 
-module.exports = class RoleInfoCommand extends Command {
-  constructor(client) {
-    super(client, {
-      name: 'roleinfo',
-      aliases: ['role', 'ri'],
-      usage: 'roleinfo <role mention/ID>',
-      description: 'Fetches information about the provided role.',
-      type: client.types.INFO,
-      examples: ['roleinfo @Member']
-    });
+module.exports = class RoleInfoCommand extends BaseCommand {
+  constructor() {
+    super('roleinfo', 'roles', []);
   }
+
   run(message, args) {
 
     const role = this.getRoleFromMention(message, args[0]) || message.guild.roles.cache.get(args[0]);
