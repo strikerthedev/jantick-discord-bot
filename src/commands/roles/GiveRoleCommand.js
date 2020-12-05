@@ -10,37 +10,23 @@ module.exports = class GiveRoleCommand extends BaseCommand {
 
   async run(client, message, args) {
 
-    if (!message.member.hasPermission('MANAGE_ROLES')) {
-      message.reply("Command restricted to Server Staff");
+    if (!message.member.hasPermission('MANAGE_ROLES')) return message.reply("Command restricted to Server Staff");
 
-      return;
-  }
+    let member = getMemberFromMention(args[0]) 
 
-  let member = message.mentions.members.first() 
+    if (!member) return message.channel.send("I couldn't find that user");
 
-  if (!member) {
-      message.channel.send("I couldn't find that user");
+    let role = getRoleFromMention(args[1])
 
-      return;
-  }
+    if (!role) return message.channel.send("That role doesn't exist, please mention a valid role.");
 
-  let roleName = args.pop(),
-      role = message.guild.roles.cache.find(role => role.name === roleName);
+    await member.roles.add(role.id);
 
-  if (!role) {
-      message.channel.send("That role doesn't exist, please mention a valid role.");
-
-      return;
-  }
-
-  await member.roles.add(role);
-
-  const addedRoleEmbed = new MessageEmbed()
-  .setColor(colours.GreenColour)
-  .setDescription(`${member} has been given ${role}`)
-
-
-  message.channel.send(addedRoleEmbed);
+    const addedRoleEmbed = new MessageEmbed()
+    .setColor(colours.GreenColour)
+    .addField('Affirmative',`${member.displayName} has been given ${role.name}`)
+    
+    message.channel.send(addedRoleEmbed);
 
   }
 }
