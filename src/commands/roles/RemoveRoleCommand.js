@@ -5,7 +5,7 @@ const colours = require('../../json/colors.json')
 
 module.exports = class GiveRoleCommand extends BaseCommand {
   constructor() {
-    super('giverole', 'Roles', []);
+    super('removerole', 'Roles', []);
   }
 
   async run(client, message, args) {
@@ -19,12 +19,12 @@ module.exports = class GiveRoleCommand extends BaseCommand {
     let role = getRoleFromMention(args[1])
 
     if (!role) return message.channel.send("That role doesn't exist, please mention a valid role.");
-
-    await member.roles.add(role.id);
+    if (!member.roles.cache.find(rol => rol.id === role.id)) return message.channel.send("That member doesn't have that role.");
+    await member.roles.remove(role.id);
 
     const addedRoleEmbed = new MessageEmbed()
     .setColor(colours.GreenColour)
-    .addField('Affirmative',`${member.displayName} has been given ${role.name}`)
+    .addField('Affirmative',`${role.name} has been removed from ${member.displayName}`)
     
     message.channel.send(addedRoleEmbed);
 
