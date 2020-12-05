@@ -5,7 +5,7 @@ const colours = require('../../json/colors.json')
 
 module.exports = class GiveRoleCommand extends BaseCommand {
   constructor() {
-    super('giverole', 'Roles', []);
+    super('removerole', 'Roles', []);
   }
 
   async run(client, message, args) {
