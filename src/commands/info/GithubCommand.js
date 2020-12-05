@@ -1,18 +1,13 @@
 const BaseCommand = require('../../utils/structures/BaseCommand');
 const { MessageEmbed } = require('discord.js');
 const { oneLine } = require('common-tags');
+const colors = require('../../json/colors.json')
 
-module.exports = class GitHubCommand extends Command {
-  constructor(client) {
-    super(client, {
-      name: 'github',
-      aliases: ['gh', 'repo'],
-      usage: 'github',
-      description: 'Displays the link to Jantick\'s GitHub repository.',
-      type: client.types.INFO
-    });
+module.exports = class GithubCommand extends BaseCommand {
+  constructor() {
+    super('github', 'info', []);
   }
-  run(message) {
+  run(client, message, args) {
     const embed = new MessageEmbed()
       .setTitle('GitHub Link')
       .setThumbnail('https://github.githubassets.com/images/modules/open_graph/github-mark.png')
@@ -26,7 +21,7 @@ module.exports = class GitHubCommand extends Command {
       )
       .setFooter(message.member.displayName,  message.author.displayAvatarURL({ dynamic: true }))
       .setTimestamp()
-      .setColor(message.guild.me.displayHexColor);
+      .setColor(colors.MainColour);
     message.channel.send(embed);
   }
 };
